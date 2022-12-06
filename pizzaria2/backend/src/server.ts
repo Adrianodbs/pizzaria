@@ -1,6 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express'
 import 'express-async-errors'
 import cors from 'cors'
+import path from 'path'
 
 import {router} from './routes'
 
@@ -10,6 +11,12 @@ app.use(cors())
 
 //para falar que as rotas da minha aplicação estarão dentro do router
 app.use(router)
+
+//para acessar as imagens
+app.use(
+  '/files',
+  express.static(path.resolve(__dirname,'..','tmp'))
+)
 
 app.use((err:Error, req: Request, res:Response, next:NextFunction)=>{
   if(err instanceof Error){

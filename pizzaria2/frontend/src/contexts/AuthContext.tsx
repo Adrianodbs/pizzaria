@@ -30,8 +30,9 @@ export function AuthProvider({children}:AuthProviderProps){
 
   const isAuthenticated = !!user
 
-  async function signIn(){
-    alert('clicou no login')
+  async function signIn({email, password}: SignInProps){
+    console.log(email)
+    console.log(password)
   }
   return(
     <AuthContext.Provider value={{user, isAuthenticated, signIn}}>

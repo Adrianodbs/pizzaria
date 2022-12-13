@@ -3,15 +3,28 @@ import styles from './styles.module.scss'
 import {useState, ChangeEvent} from 'react'
 
 import {canSSRAuth} from '../../utils/canSSRAuth'
+import {setupAPIClient} from '../../services/api'
 
 import Header from "../../components/Header"
 
 import {FiUpload} from 'react-icons/fi'
 
-export default function Product() {
+type ItemProps = {
+  id: string;
+  name:string
+}
+
+interface CategoryProps{
+  categoryList: ItemProps[]
+}
+
+export default function Product({categoryList}:CategoryProps) {
 
   const [avatarUrl, setAvatarUrl] = useState('')
   const [imageAvatar, setImageAvatar] = useState(null)
+
+  const [categories, SetCategories] = useState(categoryList || [])
+  const [categorySelected, setCategorySelected] = useState(0)
 
   function handleFile(e: ChangeEvent<HTMLInputElement>){
 
@@ -29,6 +42,11 @@ export default function Product() {
       setImageAvatar(image)
       setAvatarUrl(URL.createObjectURL(image))
     }
+  }
+
+  function handleChangeCategory(e){
+
+    setCategorySelected(e.target.value)
   }
   return (
     <>
@@ -57,9 +75,14 @@ export default function Product() {
               />
               )}
             </label>
-            <select>
-              <option>Bebida</option>
-              <option>Pizza</option>
+            <select value={categorySelected} onChange={handleChangeCategory}>
+              {categories.map((item, index)=>{
+                return(
+                  <option key={item.id} value={index}>
+                    {item.name}
+                  </option>
+                )
+              })}
             </select>
             <input type="text" placeholder="Digite o nome do produto" className={styles.input} />
             <input type="text" placeholder="Preço do produto" className={styles.input} />
@@ -75,7 +98,13 @@ export default function Product() {
 }
 
 export const getServerSideProps = canSSRAuth(async(ctx)=>{
+
+  const apiClient = setupAPIClient(ctx)
+
+  const response = await apiClient.get('/category')
   return{
-    props:{}
+    props:{
+      categoryList: response.data
+    }
   }
 })

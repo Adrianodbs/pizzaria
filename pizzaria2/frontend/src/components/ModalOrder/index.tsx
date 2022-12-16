@@ -40,6 +40,8 @@ export function ModalOrder({isOpen, onRequestClose, order}:ModalOrderProps){
             <span className={styles.description}>{item.product.description}</span>
           </section>
         ))}
+
+        <button className={styles.buttonOrder} onClick={()=>{}}>Concluir pedido</button>
       </div>
     </Modal>
   )

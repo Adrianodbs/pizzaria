@@ -1,10 +1,10 @@
 import React, {useState, useContext} from 'react'
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native'
 
 import { AuthContext } from '../../contexts/AuthContext'
 
 export default function SignIn() {
-  const {signIn} = useContext(AuthContext)
+  const {signIn, loadingAuth} = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +24,12 @@ export default function SignIn() {
         <TextInput style={styles.input} placeholder='Digite a sua senha' placeholderTextColor='#f0f0f0' secureTextEntry={true} value={password} onChangeText={setPassword} />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Acessar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size={25} color='#fff'/>
+          ) :(
+            <Text style={styles.buttonText}>Acessar</Text>
+          ) }
+          
         </TouchableOpacity>
       </View>
     </View>

@@ -1,17 +1,45 @@
-import React from 'react'
-import {Text, SafeAreaView, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
+import React, { useState } from 'react'
+import {
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet
+} from 'react-native'
 
+import { useNavigation } from '@react-navigation/native'
 
+import { StackParamsList } from '../../routes/app.routes'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export default function Dashboard() {
+  const [number, setNumber] = useState('')
+
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamsList>>()
+
+  async function openOrder() {
+    if (number === '') {
+      return
+    }
+
+    //precisa fazer a requisição e abrir a mesa e navegar para a próxima tela
+    navigation.navigate('Order', { number: number, order_id })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Novo pedido</Text>
 
-      <TextInput style={styles.input} placeholder='Número da mesa' placeholderTextColor='#f0f0f0' keyboardType='numeric' />
+      <TextInput
+        style={styles.input}
+        placeholder="Número da mesa"
+        placeholderTextColor="#f0f0f0"
+        keyboardType="numeric"
+        value={number}
+        onChangeText={setNumber}
+      />
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={openOrder}>
         <Text style={styles.buttonText}>Abrir mesa</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -19,41 +47,41 @@ export default function Dashboard() {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    paddingVertical:15,
-    backgroundColor:'#1d1d2e'
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    backgroundColor: '#1d1d2e'
   },
-  title:{
-    fontSize:30,
-    fontWeight:'bold',
-    color:'#fff',
-    marginBottom:24,
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 24
   },
-  input:{
-    width:'90%',
-    height:60,
-    backgroundColor:'#101026',
-    borderRadius:4,
-    paddingHorizontal:8,
-    textAlign:'center',
-    fontSize:22,
-    color:'#fff'
+  input: {
+    width: '90%',
+    height: 60,
+    backgroundColor: '#101026',
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    textAlign: 'center',
+    fontSize: 22,
+    color: '#fff'
   },
-  button:{
-    width:'90%',
-    height:40,
-    backgroundColor:'#3fffa3',
-    borderRadius:4,
-    marginVertical:12,
-    justifyContent:'center',
-    alignItems:'center'
+  button: {
+    width: '90%',
+    height: 40,
+    backgroundColor: '#3fffa3',
+    borderRadius: 4,
+    marginVertical: 12,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  buttonText:{
-    fontSize:18,
-    color:'#101026',
-    fontWeight:'bold'
+  buttonText: {
+    fontSize: 18,
+    color: '#101026',
+    fontWeight: 'bold'
   }
 })

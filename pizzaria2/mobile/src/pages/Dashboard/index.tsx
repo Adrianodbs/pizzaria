@@ -23,7 +23,8 @@ export default function Dashboard() {
     }
 
     //precisa fazer a requisição e abrir a mesa e navegar para a próxima tela
-    navigation.navigate('Order', { number: number, order_id })
+    navigation.navigate('Order', { number: number })
+    //add order_id
   }
 
   return (

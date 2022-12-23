@@ -8,8 +8,8 @@ export type StackParamsList = {
   Dashboard: undefined
   Order: {
     number: number | string
+    order_id: string
   }
-  //add order_id
 }
 
 const Stack = createNativeStackNavigator<StackParamsList>()

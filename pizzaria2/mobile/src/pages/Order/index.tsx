@@ -97,6 +97,10 @@ export default function Order() {
   function handleChangeCategory(item: CategoryProps) {
     setCategorySelected(item)
   }
+
+  function handleChangeProduct(item: ProductProps) {
+    setproductSelected(item)
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -116,7 +120,10 @@ export default function Order() {
       )}
 
       {products.length !== 0 && (
-        <TouchableOpacity style={styles.input}>
+        <TouchableOpacity
+          style={styles.input}
+          onPress={() => setModalProductVisible(true)}
+        >
           <Text style={{ color: '#fff' }}>{productSelected?.name}</Text>
         </TouchableOpacity>
       )}
@@ -151,6 +158,18 @@ export default function Order() {
           handleCloseModal={() => setModalCategoryVisible(false)}
           options={category}
           selectedItem={handleChangeCategory}
+        />
+      </Modal>
+
+      <Modal
+        transparent={true}
+        visible={modalProductVisible}
+        animationType="fade"
+      >
+        <ModalPicker
+          handleCloseModal={() => setModalProductVisible(false)}
+          options={products}
+          selectedItem={handleChangeProduct}
         />
       </Modal>
     </View>
